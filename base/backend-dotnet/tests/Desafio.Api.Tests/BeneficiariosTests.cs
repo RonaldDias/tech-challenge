@@ -244,4 +244,26 @@ public class BeneficiariosTests(ApiFixture fixture) : IAsyncLifetime
         var corpo = await resposta.CorpoAsync();
         Assert.Equal("Nome Corrigido do Inativo", corpo.GetProperty("nome_completo").GetString());
     }
+
+    [Fact]
+    public async Task Criar_simultaneamente_com_mesmo_cpf_deve_garantir_unicidade()
+    {
+        var cpf = GeradorDeCpf.Gerar(9999);
+
+        var corpo = new
+        {
+            NomeCompleto = "Teste race condition",
+            Cpf = cpf,
+            DataNascimento = "1990-01-01",
+            PlanoId = Planos.Bronze
+        };
+
+        var tarefa1 = Client.PostAsync("/beneficiarios", Http.Json(corpo));
+        var tarefa2 = Client.PostAsync("/beneficiarios", Http.Json(corpo));
+
+        var respostas = await Task.WhenAll(tarefa1, tarefa2);
+
+        Assert.Contains(respostas, r => r.StatusCode == HttpStatusCode.Created);
+        Assert.Contains(respostas, r => r.StatusCode == HttpStatusCode.Conflict);
+    }
 }

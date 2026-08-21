@@ -1,0 +1,22 @@
+.cabecalho-lista {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filtros {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.erro {
+  color: #b00020;
+}
+
+.paginacao {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 1rem;
+}

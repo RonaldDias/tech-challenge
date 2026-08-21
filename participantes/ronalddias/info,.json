@@ -1,0 +1,8 @@
+{
+  "identificador": "ronalddias",
+  "nome": "Ronald Costa Dias",
+  "email": "ronaldsilva850@gmail.com",
+  "imagem_api": "ronalddias/desafio-4tech-api:1.0.0",
+  "imagem_web": "ronalddias/desafio-4tech-web:1.0.0",
+  "stack": ["dotnet-10", "postgres-17", "angular-20"]
+}

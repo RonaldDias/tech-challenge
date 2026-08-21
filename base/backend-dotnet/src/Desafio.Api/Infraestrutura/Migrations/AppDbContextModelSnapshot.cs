@@ -39,6 +39,9 @@ namespace Desafio.Api.Infraestrutura.Migrations
                     b.Property<DateOnly>("DataNascimento")
                         .HasColumnType("date");
 
+                    b.Property<DateTime?>("ExcluidoEm")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("NomeCompleto")
                         .IsRequired()
                         .HasMaxLength(120)
@@ -53,6 +56,9 @@ namespace Desafio.Api.Infraestrutura.Migrations
                         .HasColumnType("character varying(10)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Cpf")
+                        .IsUnique();
 
                     b.HasIndex("PlanoId");
 

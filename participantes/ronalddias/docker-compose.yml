@@ -1,0 +1,38 @@
+# As imagens abaixo NÃO foram publicadas no Docker Hub — o ambiente de build (WSL/Docker)
+# travou repetidamente na reta final do prazo (erros SIGBUS/corrupção de disco). Detalhes
+# na seção "O que ficou de fora" do README desta entrega.
+#
+# Este arquivo documenta o formato pretendido da entrega, mas não passa em ./verificar.sh
+# porque as imagens referenciadas não existem publicamente.
+
+services:
+  api:
+    image: ronalddias/desafio-4tech-api:1.0.0
+    ports:
+      - "9999:8080"
+    environment:
+      ConnectionStrings__Postgres: "Host=postgres;Port=5432;Database=desafio;Username=desafio;Password=desafio"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  web:
+    image: ronalddias/desafio-4tech-web:1.0.0
+    ports:
+      - "4200:80"
+    depends_on:
+      - api
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: desafio
+      POSTGRES_USER: desafio
+      POSTGRES_PASSWORD: desafio
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U desafio -d desafio"]
+      interval: 3s
+      timeout: 3s
+      retries: 15

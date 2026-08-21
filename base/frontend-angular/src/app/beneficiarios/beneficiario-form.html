@@ -1,0 +1,51 @@
+<div class="sobreposicao">
+  <div class="cartao formulario">
+    <h3>{{ ehEdicao ? 'Editar beneficiário' : 'Novo beneficiário' }}</h3>
+
+    @if (erro()) {
+      <p class="erro">{{ erro() }}</p>
+    }
+
+    <label>
+      Nome completo
+      <input type="text" [(ngModel)]="nomeCompleto" name="nomeCompleto" />
+    </label>
+
+    <label>
+      CPF
+      <input type="text" [(ngModel)]="cpf" name="cpf" [disabled]="ehEdicao" />
+    </label>
+
+    <label>
+      Data de nascimento
+      <input type="date" [(ngModel)]="dataNascimento" name="dataNascimento" />
+    </label>
+
+    <label>
+      Plano
+      <select [(ngModel)]="planoId" name="planoId">
+        <option value="">Selecione</option>
+        @for (plano of planos; track plano.id) {
+          <option [value]="plano.id">{{ plano.nome }}</option>
+        }
+      </select>
+    </label>
+
+    @if (ehEdicao) {
+      <label>
+        Situação
+        <select [(ngModel)]="status" name="status">
+          <option value="ATIVO">Ativo</option>
+          <option value="INATIVO">Inativo</option>
+        </select>
+      </label>
+    }
+
+    <div class="acoes-formulario">
+      <button type="button" (click)="cancelar()" [disabled]="salvando()">Cancelar</button>
+      <button type="button" (click)="salvar()" [disabled]="salvando()">
+        {{ salvando() ? 'Salvando...' : 'Salvar' }}
+      </button>
+    </div>
+  </div>
+</div>
